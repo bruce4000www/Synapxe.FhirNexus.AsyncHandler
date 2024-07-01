@@ -1,0 +1,35 @@
+{
+  "EnableHandlerAutoRegistration": true,
+  "PublicConformanceResources": true,
+  "UseFhirController": false,
+  "SystemPlugins": {
+    "Metadata": "Conformance",
+    "Merge": true,
+    "OpenTelemetryPrometheusMetrics": {
+      "AspNetCoreInstrumentation": true
+    },
+    "OpenTelemetryTracing": {
+      "ServiceName": true,
+      "AspNetCoreInstrumentation": true,
+      "SqlClientInstrumentation": {
+        "SetDbStatementForText": true
+      },
+      "OtlpExporter": true
+    },
+    "Authentication": "DemoFhirNexusAsyncHandler.Security.HeadersAuthenticationHandler"
+  },
+  "Handlers": {
+    "Repository": {
+      "FhirDataStore<@NoSql>": {
+        "UseSqlDocument": {
+          "EnableRetryOnFailure": true
+        },
+        "IncludeStandardSearchParams": true,
+        "ConnectionString": "Local",
+        "AcceptedTypes": [
+          "Appointment"
+        ]
+      }
+    }
+  }
+}

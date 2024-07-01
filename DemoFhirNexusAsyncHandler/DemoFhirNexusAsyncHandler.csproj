@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ProjectGuid>{211AE163-7BA1-434B-879A-C431C6F4C9FA}</ProjectGuid>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>4e817b04-f373-491b-a15a-b6c62aed6984</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Ihis.FhirEngine.WebApi.Extensions.Swashbuckle" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.Extensions.OpenTelemetry" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.WebApi.R5" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.Data.SqlServer" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.Data.SqlServer.Extensions.Migration" Version="4.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="Conformance/*.StructureDefinition.json" />
+    </ItemGroup>
+</Project>
