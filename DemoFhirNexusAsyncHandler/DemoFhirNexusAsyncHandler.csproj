@@ -17,6 +17,9 @@
         <PackageReference Include="Ihis.FhirEngine.WebApi.R5" Version="4.0.0" />
         <PackageReference Include="Ihis.FhirEngine.Data.SqlServer" Version="4.0.0" />
         <PackageReference Include="Ihis.FhirEngine.Data.SqlServer.Extensions.Migration" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.Extensions.AsyncHandlers" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.Extensions.AsyncHandlers.MassTransit.ActiveMQ" Version="4.0.0" />
+        <PackageReference Include="Ihis.FhirEngine.Data.Relational.SqlServer" Version="4.0.0" />
     </ItemGroup>
 
     <ItemGroup>

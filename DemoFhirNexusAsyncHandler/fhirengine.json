@@ -1,5 +1,5 @@
 {
-  "EnableHandlerAutoRegistration": true,
+  "EnableHandlerAutoRegistration": false,
   "PublicConformanceResources": true,
   "UseFhirController": false,
   "SystemPlugins": {
@@ -16,9 +16,49 @@
       },
       "OtlpExporter": true
     },
-    "Authentication": "DemoFhirNexusAsyncHandler.Security.HeadersAuthenticationHandler"
+    "Authentication": "DemoFhirNexusAsyncHandler.Security.HeadersAuthenticationHandler",
+    "MassTransitAsyncHandlers": {
+      "RecreateSenderScope": true,
+      "ConsumerEndpoint": {
+        "PrefetchCount": 1
+      },
+      "MessageAudit": {
+        "ApplySqlRelationalModels": true,
+        "ConnectionString": "FhirAsyncAudit",
+        "RelationalSettings": {
+          "AutoCreateTables": true
+        }
+      },
+      "DbInboxOutbox": {
+        "UseSqlServer": {
+          "ConnectionString": "FhirMessageOutbox",
+          "RelationalSettings": {
+            "AutoCreateTables": true
+          }
+        },
+        "QueryDelay": "00:00:10",
+        "UseBusOutbox": true
+      },
+      "UsingActiveMq": {
+        "ConnectionString": "ActiveMQ",
+        "UseMessageGroup": true
+        //"UseDelayedRedelivery": {
+        //  "Ignore": [
+        //    "Ihis.PopHealth.NotificationApi.Exceptions.NotificationSkipRetryException"
+        //  ]
+        //},
+        //"UseMessageRetry": {
+        //  "Ignore": [
+        //    "Ihis.PopHealth.NotificationApi.Exceptions.NotificationSkipRetryException"
+        //  ]
+        //}
+      }
+    }
   },
   "Handlers": {
+    "FromClass": {
+      "DemoFhirNexusAsyncHandler.Handlers.PutAppointmentHandler": true
+    },
     "Repository": {
       "FhirDataStore<@NoSql>": {
         "UseSqlDocument": {
@@ -28,6 +68,20 @@
         "ConnectionString": "Local",
         "AcceptedTypes": [
           "Appointment"
+        ]
+      }
+    },
+    "WorkflowHandlers": {
+      "Appointment": {
+        "CRUD-*": [
+          {
+            "Name": "Sync_Put_Appointment"
+          }
+        ],
+        "PostInteraction-*": [
+          {
+            "Name": "Async_Put_Appointment"
+          }
         ]
       }
     }

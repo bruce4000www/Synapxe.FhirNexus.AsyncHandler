@@ -19,17 +19,17 @@ namespace DemoFhirNexusAsyncHandler.Security
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var request = Context.Request;
-            if (request.Headers.TryGetValue(SecurityHeaderName, out var securityHeader))
-            {
-                var identity = new ClaimsIdentity(securityHeader);
+            //var request = Context.Request;
+            //if (request.Headers.TryGetValue(SecurityHeaderName, out var securityHeader))
+            //{
+                var identity = new ClaimsIdentity("securityHeader");
                 var principal = new ClaimsPrincipal(identity);
                 return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(principal, "HeaderIdentity")));
-            }
-            else
-            {
-                return Task.FromResult(AuthenticateResult.Fail("Missing header"));
-            }
+            //}
+            //else
+            //{
+            //    return Task.FromResult(AuthenticateResult.Fail("Missing header"));
+            //}
         }
     }
 }

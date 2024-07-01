@@ -128,9 +128,13 @@
             {
               "name": "cancel",
               "definition": "http://sypnapxe.sg/fhir/OperationDefinition/Appointment-cancel"
+            },
+            {
+              "name": "put-appointment",
+              "definition": "OperationDefinition/put-appointment"
             }
           ]
-        },
+        }
       ]
     }
   ]
