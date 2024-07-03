@@ -13,6 +13,7 @@ namespace DemoFhirNexusAsyncHandler.Handlers
     [FhirHandlerClass(AcceptedType = nameof(Appointment))]
     public class PutAppointmentHandler
     {
+        private readonly IDataService<Appointment> appointmentService;
         private static readonly OperationOutcome successOperationOutcome = new()
         {
             Issue = new List<OperationOutcome.IssueComponent>
@@ -29,17 +30,16 @@ namespace DemoFhirNexusAsyncHandler.Handlers
             }
         };
 
-        public PutAppointmentHandler()
+        public PutAppointmentHandler(IDataService<Appointment> appointmentService)
         {
-            
+            this.appointmentService = appointmentService;
         }
 
         [FhirHandler("Sync_Put_Appointmentx", HandlerCategory.CRUD, FhirInteractionType.OperationType, CustomOperation = "put-appointment")]
         public async Task SyncPutAppointment(IFhirContext context, Appointment appointment, CancellationToken cancellationToken)
         {
-            var test = 1;
-            context.SetCacheResourceId("this_is_id", "this_is_versionid");
-            context.Items.Add("Bruce", "Bruce_content"); // It fails to pass to async handler
+            var outcome = await appointmentService.UpsertAsync(appointment, null, true, true, false, cancellationToken);
+            context.SetCacheResourceId(outcome.Resource.Id, outcome.Resource.VersionId);
             context.Response.AddResource(successOperationOutcome);
             context.Response.StatusCode = HttpStatusCode.OK;
         }
@@ -47,7 +47,8 @@ namespace DemoFhirNexusAsyncHandler.Handlers
         [AsyncFhirHandler("Async_Put_Appointment", HandlerCategory.PostInteraction, FhirInteractionType.OperationType, CustomOperation = "put-appointment")]
         public async Task AsyncPutAppointment(IFhirContext context, CancellationToken cancellationToken)
         {
-            var test = 2;
+            var appointment = context.Request.Resource as Appointment;
+            // Process the appointment based on your requirement
         }
     }
 }
